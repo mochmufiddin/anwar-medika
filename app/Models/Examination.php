@@ -27,6 +27,11 @@ class Examination extends Model
         return $this->hasOne(VitalSign::class);
     }
 
+    public function documents()
+    {
+        return $this->hasMany(ExaminationDocument::class);
+    }
+
     public function details()
     {
         return $this->hasMany(ExaminationDetail::class);
@@ -34,7 +39,7 @@ class Examination extends Model
 
     public function states()
     {
-        return $this->hasMany(ExaminationState::class);
+        return $this->hasMany(ExaminationState::class)->orderBy('id', 'desc');;
     }
 
     public function latestState()

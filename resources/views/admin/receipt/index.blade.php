@@ -35,14 +35,11 @@
                                 </td>
                                 
                                 <td>
-                                    <a href="/examination/{{ $examination->id }}" class="btn btn-info btn-sm">View</a>
-                                    <a href="/examination/{{ $examination->id }}/edit" class="btn btn-warning btn-sm">Edit</a>
-                                    <!-- Uncomment below for delete functionality -->
-                                    <!-- <form action="/examination/{{ $examination->id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this examination?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                    </form> -->
+                                    @if($examination->latest_state =='processed')
+                                    <a href="/receipt/{{ $examination->id }}" class="btn btn-info btn-sm">show</a>
+                                    @else
+                                    <a href="/receipt/{{ $examination->id }}/edit" class="btn btn-info btn-sm">edit</a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

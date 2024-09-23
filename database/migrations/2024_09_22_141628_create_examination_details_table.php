@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('examination_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('examination_id')->constrained('examinations');
+            $table->string('medication_id');
             $table->string('medication_name');
             $table->integer('quantity');
             $table->string('dosage');

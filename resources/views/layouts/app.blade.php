@@ -24,8 +24,10 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
 
+    <link rel="stylesheet" href="{{ asset('assets/vendors/select2/select2.min.css') }}">
+
     <!-- stepper -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/bs-stepper/bs-stepper.min.css') }}">
 
     @vite(['resources/css/app.css'])
   </head>
@@ -76,7 +78,9 @@
     <!-- <script src="{{ asset('assets/js/dashboard.js') }}"></script> -->
     <!-- <script src="{{ asset('assets/js/Chart.roundedBarCharts.js') }}"></script> -->
 
-    <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
+    <script src="{{ asset('assets/vendors/select2/select2.min.js') }}"></script>
+
+    <script src="{{ asset('assets/vendors/bs-stepper/bs-stepper.min.js') }}"></script>
     <!-- End custom js for this page-->
     @vite(['resources/js/app.js'])
     

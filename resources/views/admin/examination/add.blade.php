@@ -191,19 +191,25 @@
                             </div>
                             <div id="test-nl-4" class="content">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="mb-3">
-                                            <!-- <select class="form-select" id="medicine-select" name="medicine_id">
-                                                <option value="">Select Medicine</option>
+                                            <select class="form-select bg-white" id="medicine-select" name="medicine_id">
+                                                <option value="">Select Medicine</option>    
                                                 
-                                            </select> -->
+                                                @foreach($medicines as $item)
+                                                <option value="{{$item['id']}}">{{$item['name']}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="mb-3">
-                                            <input type="number" class="form-control" id="dosage" name="dosage" placeholder="Dosage">
+                                            <input type="number" class="form-control" id="quantity" name="quantity" placeholder="quantity">
                                         </div>
-                                        <button class="btn btn-primary" onclick="addMedicine()">Add</button>
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" id="dosage" name="dosage" placeholder="Dosage">
+                                        </div>
+                                        <button type="button" class="btn btn-primary" id="add-medicine-btn">Add</button>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-8 min-vh-250 bg-white p-3 mb-5">
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
@@ -216,6 +222,7 @@
                                                 <!-- Dynamically generated rows will be inserted here -->
                                             </tbody>
                                         </table>
+                                        <input type="hidden" id="medicines-input" name="medicines">
                                     </div>
                                 </div>
                                 <div class="text-right">
@@ -239,6 +246,63 @@
 
             $(document).ready(function () {
                 $('li[data-route="examination"]').addClass('active');
+
+                // $(document).ready(function () {
+                $('#add-medicine-btn').click(function (e) {
+                    e.preventDefault(); // Mencegah form submit
+
+                    var medicineSelect = $('#medicine-select');
+                    var selectedOption = medicineSelect.find(':selected');
+                    var medicineId = selectedOption.val();
+                    var medicineName = selectedOption.text();
+                    var quantity = $('#quantity').val();
+                    var dosage = $('#dosage').val();
+
+                    // Validasi input
+                    if (medicineId === "" || quantity === "" || dosage === "") {
+                        alert("Please select a medicine and fill in quantity and dosage.");
+                        return;
+                    }
+
+                    // Menambahkan baris ke tabel
+                    var newRow = `
+                        <tr data-id="${medicineId}">
+                            <td>${medicineName}</td>
+                            <td>${dosage}</td>
+                            <td>${quantity}</td>
+                            <td>
+                                <button class="btn btn-danger remove-medicine-btn">Remove</button>
+                            </td>
+                        </tr>
+                    `;
+                    $('#medicine-list').append(newRow);
+                    updateMedicinesInput();
+
+                    // Reset form fields
+                    medicineSelect.val('');
+                    $('#quantity').val('');
+                    $('#dosage').val('');
+                });
+
+                // Fungsi untuk memperbarui inpu
+                function updateMedicinesInput() {
+                    var medicinesArray = [];
+                    $('#medicine-list tr').each(function () {
+                        var id = $(this).data('id');
+                        var name = $(this).find('td:nth-child(1)').text();
+                        var dosage = $(this).find('td:nth-child(2)').text();
+                        var quantity = $(this).find('td:nth-child(3)').text();
+                        medicinesArray.push({ id: id, name: name, dosage: dosage, quantity: quantity });
+                    });
+                    $('#medicines-input').val(JSON.stringify(medicinesArray));
+                }
+
+                // Menghapus baris
+                $(document).on('click', '.remove-medicine-btn', function () {
+                    $(this).closest('tr').remove();
+                    updateMedicinesInput();
+                });
+
             })
 
             function submitForm() {

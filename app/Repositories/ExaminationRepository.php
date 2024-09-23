@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\Models\Patient;
 use App\Models\VitalSign;
 use App\Models\Examination;
+use App\Models\ExaminationDetail;
+use App\Models\UserActivity;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Exception;
@@ -53,6 +55,49 @@ class ExaminationRepository
                 'state' => 'submitted',
             ]);
 
+            // step 4: upload file
+            if (isset($data['documents'])) {
+                foreach ($data['documents'] as $document) {
+                    $documentName = $document->getClientOriginalName();
+                    $documentPath = $document->store('examination_documents', 'public');
+                    $examination->documents()->create([
+                        'file_name' => $documentName,
+                        'file_path' => $documentPath,
+                        'file_type' => $document->getClientOriginalExtension(),
+                    ]);
+                }
+            }
+
+            // step 5: grouping obat
+            $groupedMedicines = [];
+            $data['medicines'] = json_decode($data['medicines']) ?? [];
+            foreach ($data['medicines'] as $medicine) {
+                if (isset($groupedMedicines[$medicine->id])) {
+                    $groupedMedicines[$medicine->id]['quantity'] += $medicine->quantity;
+                } else {
+                    $groupedMedicines[$medicine->id] = $medicine;
+                }
+            }
+
+            // step 5: simpan ke examination_details
+            foreach ($groupedMedicines as $medicine) {
+                ExaminationDetail::create([
+                    'examination_id' => $examination->id,
+                    'medication_id' => $medicine->id,
+                    'medication_name' => $medicine->name,
+                    'quantity' => $medicine->quantity,
+                    'dosage' => $medicine->dosage,
+                ]);
+            }
+
+            // Log the activity
+            UserActivity::create([
+                'user_id' => auth()->id(), 
+                'action' => 'add new examination',
+                'model_type' => 'Examination',
+                'model_id' => $examination->id,
+            ]);
+
             DB::commit();
 
             return $examination;
@@ -72,7 +117,13 @@ class ExaminationRepository
             ->leftJoin('patients', 'examinations.patient_id', '=', 'patients.id')
             ->orderBy('examinations.id', 'desc')
             ->get();
+            
         return $examinations;
+    }
+
+    public function getDetails($id){
+        $examinations = Examination::with(['patient', 'doctor', 'vitalSigns', 'documents', 'details', 'latestState']);
+        return $examinations->find($id);
     }
 
 }
