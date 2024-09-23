@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Star Admin2 </title>
+    <title>Anwar Medika</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{ asset('assets/vendors/feather/feather.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/mdi/css/materialdesignicons.min.css') }}">
@@ -23,8 +23,13 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- endinject -->
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
+
+    <!-- stepper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
+
+    @vite(['resources/css/app.css'])
   </head>
-  
+
   <body class="with-welcome-text">
     <div class="container-scroller">
       <!-- partial:partials/_navbar.html -->
@@ -37,14 +42,7 @@
 
         <!-- partial -->
         <div class="main-panel">
-            <div class="content-wrapper">
-                <!-- <div class="row">
-                    <div class="col-sm-12">
-                    
-                    </div>
-                </div> -->
-                {{ $slot }}
-            </div>
+            {{ $slot }}
             <!-- content-wrapper ends -->
 
             <!-- free license, not allow us to remove footer -->
@@ -75,8 +73,13 @@
     <!-- endinject -->
     <!-- Custom js for this page-->
     <script src="{{ asset('assets/js/jquery.cookie.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+    <!-- <script src="{{ asset('assets/js/dashboard.js') }}"></script> -->
     <!-- <script src="{{ asset('assets/js/Chart.roundedBarCharts.js') }}"></script> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
     <!-- End custom js for this page-->
+    @vite(['resources/js/app.js'])
+    
+    {{ $javascript ?? '' }}
   </body>
 </html>
