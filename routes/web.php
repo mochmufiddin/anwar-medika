@@ -13,6 +13,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::get('/examination', [ExaminationController::class, 'index'])->name('examination');
+    Route::get('/examination/add', [ExaminationController::class, 'add'])->name('examination.add');
+    Route::post('/examination/create', [ExaminationController::class, 'create'])->name('examination.create');
+    Route::get('/examination/edit', [ExaminationController::class, 'add'])->name('examination.edit');
+    Route::post('/examination/update', [ExaminationController::class, 'create'])->name('examination.update');
 
     Route::get('/receipt', function () {
         return view('dashboard');

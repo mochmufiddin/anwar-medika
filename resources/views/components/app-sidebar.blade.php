@@ -8,7 +8,7 @@
     </li>
     <li class="nav-item nav-category"></li>
     @if(Auth::user()->role == 'doctor')
-      <li class="nav-item">
+      <li class="nav-item" data-route="examination">
         <a class="nav-link" href="{{ route('examination') }}">
           <i class="menu-icon mdi mdi-file-document"></i>
           <span class="menu-title">Examination</span>
@@ -16,7 +16,7 @@
       </li>
     @endif
     @if(Auth::user()->role == 'pharmacist')
-      <li class="nav-item">
+      <li class="nav-item" data-route="receipt">
         <a class="nav-link" href="{{ route('receipt') }}">
           <i class="menu-icon mdi mdi-file-document"></i>
           <span class="menu-title">Receipt</span>

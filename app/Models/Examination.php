@@ -10,7 +10,7 @@ class Examination extends Model
     use HasFactory;
 
     protected $fillable = [
-        'doctor_id', 'patient_id', 'vital_signs_id', 'appointment_date', 'examination_notes', 'documents', 'state_id',
+        'doctor_id', 'patient_id', 'appointment_date', 'examination_notes'
     ];
 
     public function doctor()
@@ -22,10 +22,9 @@ class Examination extends Model
     {
         return $this->belongsTo(Patient::class, 'patient_id');
     }
-
     public function vitalSigns()
     {
-        return $this->belongsTo(VitalSign::class);
+        return $this->hasOne(VitalSign::class);
     }
 
     public function details()
@@ -33,8 +32,13 @@ class Examination extends Model
         return $this->hasMany(ExaminationDetail::class);
     }
 
-    public function state()
+    public function states()
     {
-        return $this->belongsTo(ExaminationState::class, 'state_id');
+        return $this->hasMany(ExaminationState::class);
+    }
+
+    public function latestState()
+    {
+        return $this->hasOne(ExaminationState::class)->latest();
     }
 }

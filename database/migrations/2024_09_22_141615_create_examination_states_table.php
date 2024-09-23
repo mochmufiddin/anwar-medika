@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('examination_states', function (Blueprint $table) {
             $table->id();
-            $table->enum('name', ['submitted', 'paid']);
+            $table->foreignId('examination_id')->constrained('examinations');
+            $table->enum('name', ['submitted', 'processed']);
             $table->timestamps();
         });
     }

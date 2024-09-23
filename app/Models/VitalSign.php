@@ -10,6 +10,6 @@ class VitalSign extends Model
     use HasFactory;
 
     protected $fillable = [
-        'height', 'weight', 'systole', 'diastole', 'heart_rate', 'respiration_rate', 'body_temperature',
+        'examination_id', 'height', 'weight', 'systole', 'diastole', 'heart_rate', 'respiration_rate', 'body_temperature',
     ];
 }

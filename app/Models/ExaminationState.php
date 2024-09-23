@@ -9,6 +9,6 @@ class ExaminationState extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['examination_id', 'name'];
 
 }
